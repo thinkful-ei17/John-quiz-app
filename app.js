@@ -1,4 +1,5 @@
 'use strict';
+/* global $ */
 
 const BASE_API_URL = 'https://opentdb.com';
 const TOP_LEVEL_COMPONENTS = [
@@ -30,6 +31,33 @@ const hideAll = function() {
   TOP_LEVEL_COMPONENTS.forEach(component => $(`.${component}`).hide());
 };
 
+class Api {
+  constructor() {
+    this.sessionToken = null;
+  }
+
+  _buildTokenUrl() {
+    return new URL(this.BASE_API_URL + '/api_token.php');
+  }
+
+  fetchToken(callback) {
+    if (this.sessionToken) {
+      return callback();
+    }
+
+    const url = this._buildTokenUrl();
+    url.searchParams.set('command', 'request');
+
+    $.getJSON(url, res => {
+      this.sessionToken = res.token;
+      callback();
+    }, err => console.log(err));
+  }
+}
+
+Api.prototype.BASE_API_URL = 'https://opentdb.com';
+//const api = new Api();
+
 const buildBaseUrl = function(amt = 10, query = {}) {
   const url = new URL(BASE_API_URL + '/api.php');
   const queryKeys = Object.keys(query);
@@ -41,24 +69,6 @@ const buildBaseUrl = function(amt = 10, query = {}) {
 
   queryKeys.forEach(key => url.searchParams.set(key, query[key]));
   return url;
-};
-
-const buildTokenUrl = function() {
-  return new URL(BASE_API_URL + '/api_token.php');
-};
-
-const fetchToken = function(callback) {
-  if (sessionToken) {
-    return callback();
-  }
-
-  const url = buildTokenUrl();
-  url.searchParams.set('command', 'request');
-
-  $.getJSON(url, res => {
-    sessionToken = res.token;
-    callback();
-  }, err => console.log(err));
 };
 
 const fetchQuestions = function(amt, query, callback) {
@@ -160,7 +170,7 @@ const generateFeedbackHtml = function(feedback) {
 
 // Render function - uses `store` object to construct entire page every time it's run
 // ===============
-const render = function() {
+const render = function(api) {
   let html;
   hideAll();
 
@@ -172,35 +182,35 @@ const render = function() {
   $('.js-progress').html(`<span>Question ${current} of ${total}`);
 
   switch (store.page) {
-    case 'intro':
-      if (sessionToken) {
-        $('.js-start').attr('disabled', false);
-      }
+  case 'intro':
+    if (api.sessionToken) {
+      $('.js-start').attr('disabled', false);
+    }
   
-      $('.js-intro').show();
-      break;
+    $('.js-intro').show();
+    break;
     
-    case 'question':
-      html = generateQuestionHtml(question);
-      $('.js-question').html(html);
-      $('.js-question').show();
-      $('.quiz-status').show();
-      break;
+  case 'question':
+    html = generateQuestionHtml(question);
+    $('.js-question').html(html);
+    $('.js-question').show();
+    $('.quiz-status').show();
+    break;
 
-    case 'answer':
-      html = generateFeedbackHtml(feedback);
-      $('.js-question-feedback').html(html);
-      $('.js-question-feedback').show();
-      $('.quiz-status').show();
-      break;
+  case 'answer':
+    html = generateFeedbackHtml(feedback);
+    $('.js-question-feedback').html(html);
+    $('.js-question-feedback').show();
+    $('.quiz-status').show();
+    break;
 
-    case 'outro':
-      $('.js-outro').show();
-      $('.quiz-status').show();
-      break;
+  case 'outro':
+    $('.js-outro').show();
+    $('.quiz-status').show();
+    break;
 
-    default:
-      return;
+  default:
+    return;
   }
 };
 
@@ -247,11 +257,12 @@ const handleNextQuestion = function() {
 // On DOM Ready, run render() and add event listeners
 $(() => {
   // Run first render
-  render();
+  const api = new Api();
+  render(api);
   
   // Fetch session token, re-render when complete
-  fetchToken(() => {
-    render();
+  api.fetchToken(() => {
+    render(api);
   });
 
   $('.js-intro, .js-outro').on('click', '.js-start', handleStartQuiz);
