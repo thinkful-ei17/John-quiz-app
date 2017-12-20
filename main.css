@@ -1,7 +1,158 @@
-.quiz-status, .outro {
-  display: none;
+body {
+    background-image: url('http://cmzone.vzbqbxhynotw9ion96xv.netdna-cdn.com/wp-content/uploads/2017/07/the-wall-wallpaper.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
-.answer-item {
-  list-style-type: none;
+#quiz {
+    margin: auto;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
 }
+
+.answers {
+    text-align: left;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.correct {
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(2, 126, 2, 0.363);
+}
+
+.wrong {
+    background-color: rgba(255, 0, 0, 0.15);
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.question-feedback {
+    font-weight: bold;
+    color: rgb(138, 2, 97);
+    text-decoration: underline black;
+}
+
+.quiz-status {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.inputSubmit {
+    text-align: center;
+}
+
+.answer {
+    font-size: 20px;
+    display: inline;
+}
+
+@media only screen and (max-width: 640px) {
+    form {
+        margin: auto;
+        width: 10em;
+        text-align: left;
+    }
+    #quiz {
+        font-size: 15px;
+        width: 60%;
+        height: 50%;
+    }
+    .question-text {
+        text-align: center;
+    }
+    .answers {
+        font-size: 14px;
+        width: 100%;
+    }
+    .quiz-status {
+        text-align: right;
+        font-weight: bold;
+        font-size: 12px;
+    }
+}
+
+input[type=submit],
+button {
+    background: rgb(138, 2, 97);
+    color: #fff;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px #eee;
+    text-shadow: none;
+    width: 170px;
+    height: 40px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+input[type=submit]:hover,
+button:hover {
+    background: rgb(61, 1, 51);
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px #eee;
+    text-shadow: none;
+}
+
+input[type=radio]:not(old) {
+    width: 2em;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    opacity: 0;
+}
+
+input[type=radio]:not(old)+label {
+    display: inline-block;
+    margin-left: -2em;
+    line-height: 1.5em;
+}
+
+input[type=radio]:not(old)+label>span {
+    display: inline-block;
+    width: 0.875em;
+    height: 0.875em;
+    margin: 0.25em 0.5em 0.25em 0.25em;
+    border: 0.0625em solid rgb(192, 192, 192);
+    border-radius: 0.25em;
+    background: rgb(224, 224, 224);
+    background-image: -moz-linear-gradient(rgb(240, 240, 240), rgb(224, 224, 224));
+    background-image: -ms-linear-gradient(rgb(240, 240, 240), rgb(224, 224, 224));
+    background-image: -o-linear-gradient(rgb(240, 240, 240), rgb(224, 224, 224));
+    background-image: -webkit-linear-gradient(rgb(240, 240, 240), rgb(224, 224, 224));
+    background-image: linear-gradient(rgb(240, 240, 240), rgb(224, 224, 224));
+    vertical-align: bottom;
+}
+
+input[type=radio]:not(old):checked+label>span>span {
+    display: block;
+    width: 0.5em;
+    height: 0.5em;
+    margin: 0.125em;
+    border: 0.0625em solid rgb(115, 153, 77);
+    border-radius: 0.125em;
+    background: rgb(153, 204, 102);
+    background-image: -moz-linear-gradient(rgb(179, 217, 140), rgb(153, 204, 102));
+    background-image: -ms-linear-gradient(rgb(179, 217, 140), rgb(153, 204, 102));
+    background-image: -o-linear-gradient(rgb(179, 217, 140), rgb(153, 204, 102));
+    background-image: -webkit-linear-gradient(rgb(179, 217, 140), rgb(153, 204, 102));
+    background-image: linear-gradient(rgb(179, 217, 140), rgb(153, 204, 102));
+}
+
+input[type=radio]:not(old):focus+label>span{
+    border: rgb(138, 2, 97) solid;
+}
+

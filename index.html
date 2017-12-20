@@ -9,14 +9,14 @@
 </head>
 <body>
   <header>
-    <h1>Quiz</h1>
     <section class="quiz-status">
+      <h1>Quiz</h1>
       <h4 class="progress js-progress"></h3>
       <h4 class="score js-score"></h3>
     </section>
   </header>
 
-  <main>
+  <main id="quiz">
     <section class="intro js-intro">
       Welcome to the quiz.
       <select id="js-question-quantity">
@@ -24,16 +24,19 @@
         <option value="10">10 questions</option>
         <option value="25">25 questions</option>
       </select>
+    </br>
+    </br>
       <button disabled class="start js-start">Start Now</button>
     </section>
     <section class="question js-question"></section>
     <section class="question-feedback js-question-feedback"></section>
     <section class="outro js-outro">
       Thanks for playing!
-      <button class="start js-start">Restart Quiz</button>
+    </br>
+    </br>
+      <button class="restart js-restart">Restart Quiz</button>
       </section>
     </main>
-
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="app.js"></script>
 </body>
